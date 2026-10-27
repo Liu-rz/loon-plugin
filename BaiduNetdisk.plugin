@@ -1,16 +1,18 @@
 #!name=百度网盘去广告（抓包定向版）
-#!desc=拦截已捕获的广告请求与竞价回传，关闭乐播投屏配置中的穿山甲广告开关。仅覆盖已分析接口。
+#!desc=精确域名拦截已捕获的广告 SDK 和竞价回传，无需解密广告连接；投屏广告开关修改仍需 MITM。更新版 r2。
 #!author=Liu-rz
 #!homepage=https://github.com/Liu-rz/loon-plugin
 #!date=2026-10-27
 
+[Rule]
+# r2：精确匹配两个广告主机，不依赖 HTTPS MITM；需使用规则分流模式。
+# 主机内所有路径都会被拦截，使用相同广告 SDK 的其他 App 也可能受到影响。
+DOMAIN,sdk.1rtb.net,REJECT
+DOMAIN,sdklog.zhangyuyidong.cn,REJECT
+
 [URL Rewrite]
-# 广告响应为不透明的二进制格式，直接拒绝，不伪造 JSON 响应。
-^https?://sdk\.1rtb\.net(?::\d+)?/sdk/req_ad(?:\?|$) reject
-# 广告竞价结果回传。
-^https?://sdklog\.zhangyuyidong\.cn(?::\d+)?/sdk/lurl(?:\?|$) reject
 # 只替换已确认的广告开关，保留投屏配置的其他字段。
 ^https?://conf\.hpplay\.cn(?::\d+)?/sender/conf(?:\?|$) response-body-json-replace data.csj_ad_switch.enabled 0
 
 [MITM]
-hostname = sdk.1rtb.net, sdklog.zhangyuyidong.cn, conf.hpplay.cn
+hostname = conf.hpplay.cn

@@ -6,15 +6,15 @@
 
 | App | 插件订阅 | 说明 | 更新日期 | 验证状态 |
 | --- | --- | --- | --- | --- |
-| 百度网盘（百度云） | [BaiduNetdisk.plugin](https://raw.githubusercontent.com/Liu-rz/loon-plugin/main/BaiduNetdisk.plugin) | [处理范围与限制](docs/BaiduNetdisk.md) | 2026-10-27 | 抓包离线规则验证通过，真机效果待确认 |
+| 百度网盘（百度云） | [BaiduNetdisk.plugin](https://raw.githubusercontent.com/Liu-rz/loon-plugin/main/BaiduNetdisk.plugin) | [处理范围与限制](docs/BaiduNetdisk.md) | 2026-10-27（r2） | 初版开屏未去除；r2 两份抓包离线匹配通过，待真机复测 |
 
-每个 App 独立订阅，按需添加。当前百度网盘插件只覆盖抓包中确认的两个广告接口及一个投屏广告开关，不保证去除全部广告。
+每个 App 独立订阅，按需添加。当前百度网盘插件覆盖抓包中确认的两个广告主机及一个投屏广告开关，不保证去除全部广告。
 
 ## 安装与使用
 
 1. 从上面的目录复制需要的插件订阅地址。
 2. 在 Loon「插件」中添加地址，下载并启用插件。
-3. 开启 Loon 连接和「重写／复写」。插件涉及 HTTPS 重写时，还需开启 MITM，安装并完全信任 Loon CA 证书。
+3. 开启 Loon 连接；含分流规则的插件使用规则分流模式。涉及重写时开启「重写／复写」；涉及 HTTPS 重写时，还需开启 MITM，安装并完全信任 Loon CA 证书。
 4. 从后台退出目标 App，再重新打开测试。配置缓存可能需要等 App 重新获取后才更新。
 
 **订阅必须使用 `raw.githubusercontent.com` 上的具体 `.plugin` 文件地址。** `https://github.com/Liu-rz/loon-plugin.git` 是 Git 仓库地址，不能作为插件订阅地址；GitHub 文件预览页也不是订阅地址。
@@ -42,6 +42,7 @@
 
 ## 更新记录
 
+- 2026-10-27（百度网盘 r2）：根据第二份抓包排查开屏广告，将两个广告主机改为精确域名拒绝，降低对 MITM 的依赖；仅保留投屏配置域名解密，补充规则分流及命中记录检查步骤。真机效果待复测。
 - 2026-10-27：迁入 `Liu-rz/loon-plugin`，建立多 App 插件目录和文档维护约定；收录百度网盘抓包定向插件，更新其订阅地址和主页地址。
 
 参考：[Loon 重写文档](https://nsloon.app/en/docs/Rewrite/)、[插件格式](https://nsloon.uk/tutorial/advanced/Plugin_Format.html)。
